@@ -4,3 +4,7 @@ flask-cors
 python-socketio
 eventlet
 python-chess
+SQLAlchemy
+passlib[bcrypt]
+PyJWT
+pydantic

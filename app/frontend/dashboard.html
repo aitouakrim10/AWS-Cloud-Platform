@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Realtime Chess</title>
+
+  <!-- Chessboard.js styles -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css"
+  />
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h2>Realtime Chess</h2>
+    
+    <div class="controls">
+      <input type="text" id="player-name" placeholder="Enter your name" />
+      <button onclick="joinGame()">Join Game</button>
+      <button onclick="resetGame()">Reset Game</button>
+    </div>
+    
+    <div class="info-panel">
+      <span id="connection-status" class="disconnected">Disconnected</span>
+      <span id="player-info">Not joined</span>
+      <span id="status">Waiting...</span>
+    </div>
+    
+    <div id="messages"></div>
+    
+    <div id="board" style="width: 100%;"></div>
+  </div>
+
+  <!-- Load scripts at end of body for proper loading order -->
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  
+  <!-- Chessboard.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+  
+  <!-- Chess.js for game rules -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  
+  <!-- Socket.IO client -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  
+  <!-- Our app -->
+  <script src="scripts/app.js"></script>
+</body>
+</html>

@@ -2,51 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Realtime Chess</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realtime Chess - Login</title>
 
-  <!-- Chessboard.js styles -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css"
-  />
-  <link rel="stylesheet" href="style.css" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Gamey login styles -->
+  <link rel="stylesheet" href="style/login.css" />
 </head>
 
 <body>
-  <div class="container">
-    <h2>Realtime Chess</h2>
-    
-    <div class="controls">
-      <input type="text" id="player-name" placeholder="Enter your name" />
-      <button onclick="joinGame()">Join Game</button>
-      <button onclick="resetGame()">Reset Game</button>
+  <div class="main-container">
+    <div class="form-wrapper">
+      <div class="form-content">
+
+        <!-- Login Form -->
+        <div class="form login-form active">
+          <h2>🎮 Welcome Back</h2>
+          <p>Log in to continue your chess run</p>
+
+          <div class="input-group">
+            <span class="input-icon">👤</span>
+            <input type="text" id="login-username" placeholder="Username" autocomplete="username" required />
+          </div>
+
+          <div class="input-group">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required />
+          </div>
+
+          <button class="btn" id="login-submit">Login</button>
+
+          <p class="switch-text">
+            Don't have an account? <span class="toggle-form">Sign up</span>
+          </p>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="form signup-form">
+          <h2>🎯 Join the Game</h2>
+          <p>Create your account to start playing</p>
+
+          <div class="input-group">
+            <span class="input-icon">👤</span>
+            <input type="text" id="signup-username" placeholder="Username" autocomplete="username" required />
+          </div>
+
+          <div class="input-group">
+            <span class="input-icon">📧</span>
+            <input type="email" id="signup-email" placeholder="Email" autocomplete="email" required />
+          </div>
+
+          <div class="input-group">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="signup-password" placeholder="Password" autocomplete="new-password" required />
+          </div>
+
+          <div class="input-group">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="signup-confirm-password" placeholder="Confirm Password" autocomplete="new-password" required />
+          </div>
+
+          <button class="btn" id="signup-submit">Sign Up</button>
+
+          <p class="switch-text">
+            Already have an account? <span class="toggle-form">Login</span>
+          </p>
+        </div>
+
+      </div>
     </div>
-    
-    <div class="info-panel">
-      <span id="connection-status" class="disconnected">Disconnected</span>
-      <span id="player-info">Not joined</span>
-      <span id="status">Waiting...</span>
-    </div>
-    
-    <div id="messages"></div>
-    
-    <div id="board" style="width: 520px;"></div>
   </div>
 
-  <!-- Load scripts at end of body for proper loading order -->
-  <!-- jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  
-  <!-- Chessboard.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
-  
-  <!-- Chess.js for game rules -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-  
-  <!-- Socket.IO client -->
-  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-  
-  <!-- Our app -->
-  <script src="app.js"></script>
+  <script src="scripts/login.js"></script>
 </body>
 </html>

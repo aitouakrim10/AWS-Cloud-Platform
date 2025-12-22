@@ -2,14 +2,22 @@ import game_manager
 from flask import Flask, request
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
+from config import JWT_SECRET
+from db import Base, engine
+from auth import auth_bp
+from models.user import User
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key'
+app.config['SECRET_KEY'] = JWT_SECRET
 CORS(app, origins="*")
 socketio = SocketIO(app, cors_allowed_origins="*")
 
+Base.metadata.create_all(bind=engine)
+
 chess_game = game_manager.ChessGame()
 connected_players = {}  # sid -> player_id
+
+app.register_blueprint(auth_bp)
 
 @socketio.on('connect')
 def handle_connect():

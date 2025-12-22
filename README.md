@@ -24,6 +24,13 @@ This project simulates **real-world production operations**, not a demo environm
 
 ---
 
+### Usage
+
+```sh
+cd docker
+docker-compose up --build
+```
+
 ## 👤 Author
 
 **Abdelmajid Ait Ouakrim**

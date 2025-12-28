@@ -1,31 +1,30 @@
 
-# Production-Grade AWS Cloud Platform
+# Real-time Chess Platform
 
-### **DevOps • SRE • Cloud**
+A web-based multiplayer chess game deployed on AWS with Kubernetes.
 
-##  Overview
+## What's inside
 
-This project demonstrates the **design, deployment, and operation of a production-grade cloud-native platform on AWS**, following **DevOps, SRE, and DevSecOps best practices**.
+- **Frontend**: HTML/CSS/JavaScript chess interface
+- **Backend**: Flask API with WebSocket for real-time gameplay
+- **Infrastructure**: Kubernetes (EKS) on AWS via Terraform
+- **Deployment**: Automated with Docker, Ansible, and ArgoCD
 
-The platform is built using **Terraform, Docker, Kubernetes (EKS), Helm, Ansible, GitHub Actions, and ArgoCD**, with a strong focus on **reliability, security, scalability, and observability**.
+## Quick start
 
-This project simulates **real-world production operations**, not a demo environment.
+1. Deploy infrastructure with Terraform
+2. Build Docker images
+3. Deploy to Kubernetes
+4. Access the app via the ingress
+
+## Tech stack
+
+- Terraform, Docker, Kubernetes, Flask, React
+- Ansible for config, ArgoCD for GitOps
+- GitHub Actions for CI/CD
 
 ---
 
-##  Goals
-
-* Provision AWS infrastructure using **Infrastructure as Code**
-* Deploy and operate a **highly available EKS cluster**
-* Apply **SRE principles** (SLOs, SLIs, error budgets)
-* Implement **secure CI/CD pipelines (DevSecOps)**
-* Use **GitOps** for deployment
-* Validate resilience via **chaos engineering**
-
----
-
-
-**Abdelmajid Ait Ouakrim**
-DevOps | SRE | DevSecOps Engineer
+**Abdelmajid Ait Ouakrim** | DevOps | SRE
 
 

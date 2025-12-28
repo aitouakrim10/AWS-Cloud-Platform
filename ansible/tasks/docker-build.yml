@@ -1,0 +1,48 @@
+---
+- name: Check if Docker is installed
+  command: which docker
+  register: docker_installed
+  failed_when: false
+  changed_when: false
+
+- name: Fail if Docker is not installed
+  fail:
+    msg: "Docker is not installed. Please install it first."
+  when: docker_installed.rc != 0
+
+- name: Build backend Docker image
+  command: >
+    docker build 
+    -t {{ backend_image_name }}:{{ image_tag }}
+    -f {{ docker_dir }}/Dockerfile.backend
+    {{ project_root }}
+  args:
+    chdir: "{{ project_root }}"
+  register: backend_build
+
+- name: Build frontend Docker image
+  command: >
+    docker build 
+    -t {{ frontend_image_name }}:{{ image_tag }}
+    -f {{ docker_dir }}/Dockerfile.frontend
+    {{ project_root }}
+  args:
+    chdir: "{{ project_root }}"
+  register: frontend_build
+
+- name: Load backend image into Minikube
+  command: "minikube image load {{ backend_image_name }}:{{ image_tag }}"
+  when: backend_build is changed
+
+- name: Load frontend image into Minikube
+  command: "minikube image load {{ frontend_image_name }}:{{ image_tag }}"
+  when: frontend_build is changed
+
+- name: List images in Minikube
+  command: minikube image ls
+  register: minikube_images
+  changed_when: false
+
+- name: Display loaded images
+  debug:
+    msg: "{{ minikube_images.stdout_lines }}"

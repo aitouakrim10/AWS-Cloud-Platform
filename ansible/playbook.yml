@@ -1,0 +1,25 @@
+---
+- name: Deploy Platform as a Service on Minikube
+  hosts: local
+  gather_facts: yes
+  become: no
+  
+  vars_files:
+    - group_vars/all.yml
+  
+  tasks:
+    - name: Include minikube setup tasks
+      include_tasks: tasks/minikube-setup.yml
+      tags: [minikube, setup]
+    
+    - name: Include docker build tasks
+      include_tasks: tasks/docker-build.yml
+      tags: [docker, build]
+    
+    - name: Include kubernetes deployment tasks
+      include_tasks: tasks/k8s-deploy.yml
+      tags: [k8s, deploy]
+    
+    - name: Include verification tasks
+      include_tasks: tasks/verify.yml
+      tags: [verify, check]

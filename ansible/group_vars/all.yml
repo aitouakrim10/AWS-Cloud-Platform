@@ -1,0 +1,39 @@
+---
+# Ansible configuration for Platform as a Service
+
+# Minikube settings
+minikube_driver: docker
+minikube_cpus: 2
+minikube_memory: 4096
+minikube_disk_size: 20g
+
+# Project paths
+project_root: "/home/aitouaka/projets/platform_as_service"
+docker_dir: "{{ project_root }}/docker"
+k8s_dir: "{{ project_root }}/k8s"
+terraform_dir: "{{ project_root }}/terraform"
+
+# Docker images
+backend_image_name: platform-backend
+frontend_image_name: platform-frontend
+image_tag: latest
+
+# Kubernetes settings
+k8s_namespace: platform-as-service
+backend_replicas: 2
+frontend_replicas: 2
+
+# Application settings
+flask_env: production
+secret_key: secretkey123
+frontend_nodeport: 30080
+
+# Ingress settings
+enable_ingress: true
+ingress_host: platform.local
+
+# Addons to enable in Minikube
+minikube_addons:
+  - ingress
+  - dashboard
+  - metrics-server

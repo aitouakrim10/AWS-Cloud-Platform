@@ -1,23 +1,24 @@
-version: '3.8'
-
+version: "3.8"
 services:
   backend:
     build:
-      context: ..
+      context: .
       dockerfile: docker/Dockerfile.backend
+    image: platform_backend:latest
     ports:
       - "5000:5000"
     environment:
-      - FLASK_ENV=production
-      - SECRET_KEY=secretkey123
-    restart: unless-stopped
+      FLASK_ENV: development
+      SECRET_KEY: +++++
+    volumes:
+      - ./app/backend:/app
 
   frontend:
     build:
-      context: ..
+      context: .
       dockerfile: docker/Dockerfile.frontend
+    image: platform_frontend:latest
     ports:
       - "8080:8080"
     depends_on:
       - backend
-    restart: unless-stopped

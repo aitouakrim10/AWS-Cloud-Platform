@@ -1,0 +1,58 @@
+---
+- name: Check if Minikube is installed
+  command: which minikube
+  register: minikube_installed
+  failed_when: false
+  changed_when: false
+
+- name: Fail if Minikube is not installed
+  fail:
+    msg: "Minikube is not installed. Please install it first."
+  when: minikube_installed.rc != 0
+
+- name: Check Minikube status
+  command: minikube status
+  register: minikube_status
+  failed_when: false
+  changed_when: false
+
+- name: Start Minikube if not running
+  command: >
+    minikube start 
+    --driver={{ minikube_driver }}
+    --cpus={{ minikube_cpus }}
+    --memory={{ minikube_memory }}
+    --disk-size={{ minikube_disk_size }}
+  when: "'Running' not in minikube_status.stdout"
+  register: minikube_start
+
+- name: Wait for Minikube to be ready
+  command: minikube status
+  register: result
+  until: "'Running' in result.stdout"
+  retries: 10
+  delay: 5
+  changed_when: false
+
+- name: Enable Minikube addons
+  command: "minikube addons enable {{ item }}"
+  loop: "{{ minikube_addons }}"
+  register: addon_result
+  changed_when: "'enabled' in addon_result.stdout"
+  failed_when: false
+
+- name: Configure kubectl to use Minikube context
+  command: kubectl config use-context minikube
+  changed_when: false
+
+- name: Get Minikube IP
+  command: minikube ip
+  register: minikube_ip_result
+  changed_when: false
+
+- name: Display Minikube information
+  debug:
+    msg:
+      - "Minikube is running"
+      - "IP: {{ minikube_ip_result.stdout }}"
+      - "Dashboard: minikube dashboard"

@@ -1,19 +1,16 @@
+# Dockerfile backend (simple)
 FROM python:3.11-slim
-
-RUN useradd -m -u 1000 appuser
 
 WORKDIR /app
 
-COPY app/backend/requirements.txt .
+# Copier le code
+COPY app/backend/ /app/
 
+# Installer dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app/backend/ .
-
-RUN chown -R appuser:appuser /app
-
-USER appuser
-
+# Exposer port
 EXPOSE 5000
 
+# Lancer l'app Flask
 CMD ["python", "main.py"]

@@ -1,0 +1,58 @@
+---
+- name: Create namespace
+  command: kubectl apply -f {{ k8s_dir }}/namespace.yaml
+  register: namespace_result
+  changed_when: "'created' in namespace_result.stdout or 'configured' in namespace_result.stdout"
+
+- name: Apply secrets
+  command: kubectl apply -f {{ k8s_dir }}/secret.yaml
+  register: secret_result
+  changed_when: "'created' in secret_result.stdout or 'configured' in secret_result.stdout"
+
+- name: Apply ConfigMap
+  command: kubectl apply -f {{ k8s_dir }}/configmap-nginx.yaml
+  register: configmap_result
+  changed_when: "'created' in configmap_result.stdout or 'configured' in configmap_result.stdout"
+
+- name: Deploy backend
+  command: kubectl apply -f {{ k8s_dir }}/backend-deployment.yaml
+  register: backend_deploy_result
+  changed_when: "'created' in backend_deploy_result.stdout or 'configured' in backend_deploy_result.stdout"
+
+- name: Create backend service
+  command: kubectl apply -f {{ k8s_dir }}/backend-service.yaml
+  register: backend_svc_result
+  changed_when: "'created' in backend_svc_result.stdout or 'configured' in backend_svc_result.stdout"
+
+- name: Deploy frontend
+  command: kubectl apply -f {{ k8s_dir }}/frontend-deployment.yaml
+  register: frontend_deploy_result
+  changed_when: "'created' in frontend_deploy_result.stdout or 'configured' in frontend_deploy_result.stdout"
+
+- name: Create frontend service
+  command: kubectl apply -f {{ k8s_dir }}/frontend-service.yaml
+  register: frontend_svc_result
+  changed_when: "'created' in frontend_svc_result.stdout or 'configured' in frontend_svc_result.stdout"
+
+- name: Apply ingress (if enabled)
+  command: kubectl apply -f {{ k8s_dir }}/ingress.yaml
+  when: enable_ingress
+  register: ingress_result
+  changed_when: "'created' in ingress_result.stdout or 'configured' in ingress_result.stdout"
+  failed_when: false
+
+- name: Wait for backend deployment to be ready
+  command: kubectl rollout status deployment/backend -n {{ k8s_namespace }}
+  register: backend_rollout
+  until: backend_rollout.rc == 0
+  retries: 10
+  delay: 10
+  changed_when: false
+
+- name: Wait for frontend deployment to be ready
+  command: kubectl rollout status deployment/frontend -n {{ k8s_namespace }}
+  register: frontend_rollout
+  until: frontend_rollout.rc == 0
+  retries: 10
+  delay: 10
+  changed_when: false

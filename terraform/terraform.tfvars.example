@@ -1,0 +1,3 @@
+secret_key = "+++++"
+flask_env  = "development"
+namespace  = "platform"

@@ -1,9 +1,9 @@
 
-# 🚀 Production-Grade AWS Cloud Platform
+# Production-Grade AWS Cloud Platform
 
 ### **DevOps • SRE • Cloud**
 
-## 📌 Overview
+##  Overview
 
 This project demonstrates the **design, deployment, and operation of a production-grade cloud-native platform on AWS**, following **DevOps, SRE, and DevSecOps best practices**.
 
@@ -13,7 +13,7 @@ This project simulates **real-world production operations**, not a demo environm
 
 ---
 
-## 🎯 Goals
+##  Goals
 
 * Provision AWS infrastructure using **Infrastructure as Code**
 * Deploy and operate a **highly available EKS cluster**
@@ -24,14 +24,6 @@ This project simulates **real-world production operations**, not a demo environm
 
 ---
 
-### Usage
-
-```sh
-cd docker
-docker-compose up --build
-```
-
-## 👤 Author
 
 **Abdelmajid Ait Ouakrim**
 DevOps | SRE | DevSecOps Engineer

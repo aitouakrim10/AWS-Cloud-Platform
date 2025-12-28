@@ -1,0 +1,70 @@
+---
+- name: Get all pods in namespace
+  command: kubectl get pods -n {{ k8s_namespace }}
+  register: pods_status
+  changed_when: false
+
+- name: Display pods status
+  debug:
+    msg: "{{ pods_status.stdout_lines }}"
+
+- name: Get all services in namespace
+  command: kubectl get services -n {{ k8s_namespace }}
+  register: services_status
+  changed_when: false
+
+- name: Display services status
+  debug:
+    msg: "{{ services_status.stdout_lines }}"
+
+- name: Get deployments status
+  command: kubectl get deployments -n {{ k8s_namespace }}
+  register: deployments_status
+  changed_when: false
+
+- name: Display deployments status
+  debug:
+    msg: "{{ deployments_status.stdout_lines }}"
+
+- name: Get Minikube IP
+  command: minikube ip
+  register: minikube_ip
+  changed_when: false
+
+- name: Get frontend service URL
+  command: minikube service frontend-service -n {{ k8s_namespace }} --url
+  register: frontend_url
+  changed_when: false
+  failed_when: false
+
+- name: Display access information
+  debug:
+    msg:
+      - "=========================================="
+      - "Platform deployment completed!"
+      - "=========================================="
+      - "Minikube IP: {{ minikube_ip.stdout }}"
+      - "Frontend URL: http://{{ minikube_ip.stdout }}:{{ frontend_nodeport }}"
+      - "Alternative: {{ frontend_url.stdout if frontend_url.rc == 0 else 'Use minikube service command' }}"
+      - ""
+      - "Commands:"
+      - "  - View pods: kubectl get pods -n {{ k8s_namespace }}"
+      - "  - View logs: kubectl logs -f <pod-name> -n {{ k8s_namespace }}"
+      - "  - Dashboard: minikube dashboard"
+      - "  - Service URL: minikube service frontend-service -n {{ k8s_namespace }}"
+      - "=========================================="
+
+- name: Check if ingress is enabled
+  command: kubectl get ingress -n {{ k8s_namespace }}
+  register: ingress_check
+  changed_when: false
+  failed_when: false
+  when: enable_ingress
+
+- name: Display ingress information
+  debug:
+    msg:
+      - "Ingress is enabled"
+      - "Add to /etc/hosts: {{ minikube_ip.stdout }} {{ ingress_host }}"
+      - "Access via: http://{{ ingress_host }}"
+  when: enable_ingress and ingress_check.rc == 0
